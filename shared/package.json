@@ -1,0 +1,13 @@
+{
+  "name": "@wellbeing/shared",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Types shared by the server and client. Import with `import type` only.",
+  "types": "./types.ts",
+  "exports": {
+    ".": {
+      "types": "./types.ts",
+      "default": "./types.ts"
+    }
+  }
+}

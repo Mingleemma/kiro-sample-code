@@ -1,0 +1,164 @@
+[
+  {
+    "id": "box-breathing",
+    "title": "Box breathing",
+    "description": "Breathe in for 4 counts, hold for 4, out for 4, hold for 4. Repeat for a few minutes to settle your nervous system.",
+    "category": "mindfulness",
+    "durationMinutes": 3,
+    "moodBands": ["low", "mid"],
+    "indicatorLevels": ["moderate", "high"]
+  },
+  {
+    "id": "body-scan",
+    "title": "Body scan",
+    "description": "Lie or sit comfortably and slowly move your attention from your toes to your head, noticing tension without judging it.",
+    "category": "mindfulness",
+    "durationMinutes": 10,
+    "moodBands": ["low", "mid"],
+    "indicatorLevels": ["moderate", "high"]
+  },
+  {
+    "id": "grounding-54321",
+    "title": "5-4-3-2-1 grounding",
+    "description": "Name 5 things you can see, 4 you can touch, 3 you can hear, 2 you can smell, and 1 you can taste.",
+    "category": "mindfulness",
+    "durationMinutes": 2,
+    "moodBands": ["low"],
+    "indicatorLevels": ["moderate", "high"]
+  },
+  {
+    "id": "gratitude-three",
+    "title": "Three good things",
+    "description": "Write down three things that went well today and why they happened.",
+    "category": "mindfulness",
+    "durationMinutes": 5,
+    "moodBands": ["mid", "high"],
+    "indicatorLevels": ["low", "moderate"]
+  },
+  {
+    "id": "mindful-minute",
+    "title": "One mindful minute",
+    "description": "Set a timer for one minute and simply notice your breath. When your mind wanders, gently come back.",
+    "category": "mindfulness",
+    "durationMinutes": 1,
+    "moodBands": ["low", "mid", "high"],
+    "indicatorLevels": ["low", "moderate", "high"]
+  },
+  {
+    "id": "savor-moment",
+    "title": "Savor a good moment",
+    "description": "Pick one pleasant moment from today and replay it in detail for a minute. Notice how it feels.",
+    "category": "mindfulness",
+    "durationMinutes": 2,
+    "moodBands": ["high"],
+    "indicatorLevels": ["low"]
+  },
+  {
+    "id": "gentle-walk",
+    "title": "Gentle 10-minute walk",
+    "description": "Step outside for an easy walk. No pace goals, just movement and fresh air.",
+    "category": "exercise",
+    "durationMinutes": 10,
+    "moodBands": ["low", "mid"],
+    "indicatorLevels": ["low", "moderate", "high"]
+  },
+  {
+    "id": "desk-stretch",
+    "title": "Desk stretch break",
+    "description": "Roll your shoulders, stretch your neck side to side, and reach your arms overhead. Release built-up tension.",
+    "category": "exercise",
+    "durationMinutes": 5,
+    "moodBands": ["low", "mid", "high"],
+    "indicatorLevels": ["moderate", "high"]
+  },
+  {
+    "id": "yoga-flow",
+    "title": "Short yoga flow",
+    "description": "Follow a beginner-friendly 15-minute yoga flow focused on slow movement and breathing.",
+    "category": "exercise",
+    "durationMinutes": 15,
+    "moodBands": ["mid", "high"],
+    "indicatorLevels": ["low", "moderate"]
+  },
+  {
+    "id": "brisk-workout",
+    "title": "Brisk 20-minute workout",
+    "description": "Get your heart rate up with a jog, bike ride, or bodyweight circuit. Channel good energy into movement.",
+    "category": "exercise",
+    "durationMinutes": 20,
+    "moodBands": ["high"],
+    "indicatorLevels": ["low"]
+  },
+  {
+    "id": "dance-break",
+    "title": "Two-song dance break",
+    "description": "Put on two songs you love and move however you like.",
+    "category": "exercise",
+    "durationMinutes": 7,
+    "moodBands": ["mid", "high"],
+    "indicatorLevels": ["low", "moderate"]
+  },
+  {
+    "id": "nature-time",
+    "title": "Time in nature",
+    "description": "Spend time in a park or green space. Leave your phone in your pocket and notice your surroundings.",
+    "category": "exercise",
+    "durationMinutes": 20,
+    "moodBands": ["low", "mid", "high"],
+    "indicatorLevels": ["moderate", "high"]
+  },
+  {
+    "id": "digital-sunset",
+    "title": "Digital sunset",
+    "description": "Turn off screens an hour before bed tonight. Read, stretch, or listen to music instead.",
+    "category": "self-care",
+    "durationMinutes": 60,
+    "moodBands": ["low", "mid"],
+    "indicatorLevels": ["moderate", "high"]
+  },
+  {
+    "id": "reach-out",
+    "title": "Reach out to someone",
+    "description": "Send a message or call a friend or family member you trust. A short chat counts.",
+    "category": "self-care",
+    "durationMinutes": 10,
+    "moodBands": ["low", "mid"],
+    "indicatorLevels": ["moderate", "high"]
+  },
+  {
+    "id": "hydrate-snack",
+    "title": "Water and a nourishing snack",
+    "description": "Drink a glass of water and have a snack with some protein or fruit. Basics first.",
+    "category": "self-care",
+    "durationMinutes": 5,
+    "moodBands": ["low", "mid", "high"],
+    "indicatorLevels": ["low", "moderate", "high"]
+  },
+  {
+    "id": "set-boundary",
+    "title": "Set one small boundary",
+    "description": "Pick one thing to say no to or postpone this week, and protect that time for rest.",
+    "category": "self-care",
+    "durationMinutes": 5,
+    "moodBands": ["low", "mid"],
+    "indicatorLevels": ["high"]
+  },
+  {
+    "id": "plan-something-fun",
+    "title": "Plan something to look forward to",
+    "description": "Put a small, enjoyable activity on your calendar for the next few days.",
+    "category": "self-care",
+    "durationMinutes": 5,
+    "moodBands": ["mid", "high"],
+    "indicatorLevels": ["low", "moderate"]
+  },
+  {
+    "id": "early-night",
+    "title": "An early night",
+    "description": "Aim to be in bed 30 minutes earlier than usual tonight. Rest is productive.",
+    "category": "self-care",
+    "durationMinutes": 30,
+    "moodBands": ["low"],
+    "indicatorLevels": ["moderate", "high"]
+  }
+]

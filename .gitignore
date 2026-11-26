@@ -1,0 +1,6 @@
+node_modules/
+client/dist/
+# Local wellbeing data stays on this machine
+server/data/
+*.tmp
+.DS_Store

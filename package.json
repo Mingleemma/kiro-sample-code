@@ -1,0 +1,20 @@
+{
+  "name": "wellbeing-companion",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A simple single-user wellbeing companion: mood check-ins, journaling, burnout indicators, recommendations, and trends.",
+  "workspaces": [
+    "shared",
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently -n server,client -c blue,magenta \"npm run dev -w server\" \"npm run dev -w client\"",
+    "seed": "npm run seed -w server --",
+    "build": "npm run build -w client",
+    "typecheck": "npm run typecheck -w server && npm run typecheck -w client"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}
