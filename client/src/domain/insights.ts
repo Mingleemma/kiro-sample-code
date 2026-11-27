@@ -1,6 +1,6 @@
 import type { CheckIn, IsoDate, TrendRange, TrendsResponse } from '@wellbeing/shared';
-import { addDays, average, dayRange, round1, weekdayOf, WEEKDAYS } from './dates.js';
-import { LOW_MOOD_MAX } from './indicators.js';
+import { addDays, average, dayRange, round1, weekdayOf, WEEKDAYS } from './dates';
+import { LOW_MOOD_MAX } from './indicators';
 
 const SAME_THRESHOLD = 0.2;
 const WEEKDAY_LOOKBACK_DAYS = 30;

@@ -4,8 +4,7 @@ import { api } from '../api/client';
 import { ErrorMessage, Loading } from '../components/Status';
 import { useResource } from '../hooks/useResource';
 import { formatTimestamp } from '../lib/dates';
-
-const JOURNAL_MAX = 5000;
+import { JOURNAL_MAX } from '../validation';
 
 export function JournalPage() {
   const entries = useResource(() => api.listJournal(), []);

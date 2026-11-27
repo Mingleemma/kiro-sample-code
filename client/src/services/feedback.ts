@@ -1,5 +1,5 @@
 import type { Feedback, Verdict } from '@wellbeing/shared';
-import type { Store } from '../store/jsonStore.js';
+import type { Store } from '../store/localStore';
 
 /** Keeps one verdict per item; a new verdict replaces the old one. */
 export function setFeedback(store: Store, itemId: string, verdict: Verdict): Promise<Feedback> {

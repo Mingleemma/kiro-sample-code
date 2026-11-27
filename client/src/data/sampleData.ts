@@ -1,15 +1,11 @@
-// Generates ~30 days of sample data for demos.
-//   npm run seed            -> only seeds when there is no existing data
-//   npm run seed -- --force -> replaces existing data
+// Sample data for demos, loaded from the "Load sample data" button.
 //
 // The story: a steady few weeks, then a slide over the last week ending in
 // three low days. Today is left empty so the demo can start with a check-in.
 
-import { randomUUID } from 'node:crypto';
-import type { CheckIn, JournalEntry, Mood } from '@wellbeing/shared';
-import { DATA_FILE } from '../config.js';
-import { addDays, localToday } from '../domain/dates.js';
-import { createJsonStore, emptyDb } from '../store/jsonStore.js';
+import type { CheckIn, DbSchema, IsoDate, JournalEntry, Mood } from '@wellbeing/shared';
+import { addDays } from '../domain/dates';
+import { newId } from '../lib/ids';
 
 // Mood for each day, oldest first, ending yesterday. 0 = no check-in that day.
 const MOODS: (Mood | 0)[] = [
@@ -53,18 +49,8 @@ const JOURNAL: { daysAgo: number; text: string }[] = [
   },
 ];
 
-async function main() {
-  const force = process.argv.includes('--force');
-  const store = createJsonStore(DATA_FILE);
-  const current = await store.read();
-  const hasData = current.checkins.length + current.journal.length + current.feedback.length > 0;
-  if (hasData && !force) {
-    console.log(`Data already exists in ${DATA_FILE}.`);
-    console.log('Run "npm run seed -- --force" to replace it with sample data.');
-    return;
-  }
-
-  const today = localToday();
+/** Builds about 30 days of sample data ending the day before `today`. */
+export function buildSampleData(today: IsoDate): DbSchema {
   const checkins: CheckIn[] = [];
   MOODS.forEach((mood, i) => {
     if (mood === 0) return;
@@ -76,18 +62,8 @@ async function main() {
 
   const journal: JournalEntry[] = JOURNAL.map(({ daysAgo, text }) => {
     const at = `${addDays(today, -daysAgo)}T21:30:00.000Z`;
-    return { id: randomUUID(), createdAt: at, updatedAt: at, text };
+    return { id: newId(), createdAt: at, updatedAt: at, text };
   });
 
-  await store.update((db) => {
-    Object.assign(db, emptyDb(), { checkins, journal });
-  });
-
-  console.log(`Seeded ${checkins.length} check-ins and ${journal.length} journal entries into ${DATA_FILE}.`);
-  console.log('Today is left empty so you can check in during the demo.');
+  return { version: 1, checkins, journal, feedback: [] };
 }
-
-main().catch((err) => {
-  console.error(err);
-  process.exitCode = 1;
-});

@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
-import { api } from '../api/client';
-import { useResource } from '../hooks/useResource';
 import type { Route } from '../hooks/useHashRoute';
+import { DataControls } from './DataControls';
 
 const NAV: { route: Route; label: string }[] = [
   { route: 'today', label: 'Today' },
@@ -10,9 +9,6 @@ const NAV: { route: Route; label: string }[] = [
 ];
 
 export function Layout({ route, children }: { route: Route; children: ReactNode }) {
-  const health = useResource(() => api.health(), []);
-  const apiStatus = health.loading ? 'checking' : health.data?.status === 'ok' ? 'ok' : 'offline';
-
   return (
     <div className="app">
       <a className="skip-link" href="#main">
@@ -38,9 +34,6 @@ export function Layout({ route, children }: { route: Route; children: ReactNode 
               ))}
             </ul>
           </nav>
-          <span className={`api-pill api-${apiStatus}`} title="Connection to the local API">
-            API: {apiStatus}
-          </span>
         </div>
       </header>
 
@@ -54,7 +47,10 @@ export function Layout({ route, children }: { route: Route; children: ReactNode 
           does not diagnose or treat any condition. If you are concerned about your health, talk to a
           qualified professional.
         </p>
-        <p className="muted">Your data is stored only on this computer.</p>
+        <p className="muted">
+          Your data is stored only in this browser on this device. Clearing your browser data deletes it.
+        </p>
+        <DataControls />
       </footer>
     </div>
   );

@@ -6,7 +6,7 @@ import type {
   Mood,
   Signal,
 } from '@wellbeing/shared';
-import { addDays, average, dayRange, round1 } from './dates.js';
+import { addDays, average, dayRange, round1 } from './dates';
 
 // Rule thresholds. Kept as named constants so they are easy to explain and tune.
 export const LOW_MOOD_MAX = 2;

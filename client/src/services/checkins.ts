@@ -1,5 +1,5 @@
 import type { CheckIn, IsoDate, Mood } from '@wellbeing/shared';
-import type { Store } from '../store/jsonStore.js';
+import type { Store } from '../store/localStore';
 
 export async function listCheckins(store: Store, from?: IsoDate, to?: IsoDate): Promise<CheckIn[]> {
   const { checkins } = await store.read();

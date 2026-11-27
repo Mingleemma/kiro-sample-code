@@ -1,6 +1,6 @@
-# Wellbeing Companion
+# Wellbeing Companion (browser-only version)
 
-A simple, single-user wellbeing app that runs on your own computer. It supports:
+A simple, single-user wellbeing app that runs entirely in your browser. It supports:
 
 - **Daily mood check-ins**: mood from 1 to 5 with an optional note. One per day; saving again updates it.
 - **Journaling**: write, edit, and delete private reflections.
@@ -8,41 +8,57 @@ A simple, single-user wellbeing app that runs on your own computer. It supports:
 - **Personalized suggestions**: mindfulness, exercise, and self-care ideas that adapt to your mood, your indicator level, and your "Helpful" / "Not for me" feedback.
 - **Trends & insights**: 7 and 30-day mood chart, check-in streaks, and plain-language insights.
 
+There is no server. Data is stored in the browser's `localStorage`, so the app can be hosted as a
+static site on AWS Amplify Hosting.
+
 > Wellbeing Companion is a self-reflection tool and is **not medical advice**.
+
+**Branches**
+- `static-localstorage` (this branch): browser-only, `localStorage`, static hosting.
+- `master`: the original version with a local Express API and a JSON data file.
 
 ## Requirements
 
 - Node.js 20 or later (developed on Node 26)
 
-## Run it
+## Run it locally
 
 ```powershell
 npm install
-npm run seed        # optional: ~30 days of sample data for demos
-npm run dev         # starts the API (port 3001) and the web app (port 5173)
+npm run dev
 ```
 
-Open <http://localhost:5173>.
+Open <http://localhost:5173>. To try every feature quickly, click **Load sample data** in the footer.
 
 > **Windows PowerShell:** if you see "running scripts is disabled on this system", use `npm.cmd`
 > instead of `npm` (for example `npm.cmd run dev`), or run the commands from Command Prompt.
 
 | Script | What it does |
 | --- | --- |
-| `npm run dev` | Starts the API and the web app together, with reload on change |
-| `npm run seed` | Adds sample data if there is none yet |
-| `npm run seed -- --force` | Replaces all existing data with sample data |
-| `npm run typecheck` | Type-checks the server and client |
-| `npm run build` | Builds the web app into `client/dist` |
+| `npm run dev` | Starts the app with reload on change |
+| `npm run typecheck` | Type-checks the app |
+| `npm run build` | Builds the static site into `client/dist` |
+| `npm run preview` | Serves the production build locally |
+
+## Deploy to AWS Amplify Hosting
+
+1. Push this branch to GitHub, GitLab, Bitbucket, or CodeCommit.
+2. In the Amplify console, choose **Create new app**, connect the repository, and pick the `static-localstorage` branch.
+3. Amplify detects `amplify.yml`. It runs `npm ci` and `npm run build`, then publishes `client/dist`.
+
+Routes use `#/` hashes, so no rewrite rules are needed.
 
 ## Where data is stored
 
-All data lives in one JSON file: `server/data/db.json`. It is created on first run and ignored by git.
-Set `WELLBEING_DATA_FILE` to use a different path. Writes go to a temporary file first and are then
-renamed into place, so a crash cannot leave a half-written file. To start fresh, stop the server and
-delete the file.
+Everything is one JSON value in `localStorage` under the key `wellbeing-companion:v1`.
 
-The API listens on `127.0.0.1` only, because the app has no login.
+- Data stays in this browser on this device. It is not synced, and nothing is sent over the network.
+- Clearing site data, or using a private window, removes it.
+- If the stored value cannot be read, it is kept under `wellbeing-companion:v1:corrupt-<timestamp>` and the app starts fresh.
+- **Delete all my data** in the footer removes everything.
+
+Because any script on the page can read `localStorage`, do not add third-party scripts such as
+analytics or ads.
 
 ## How the indicator works
 
@@ -55,11 +71,11 @@ The indicator looks at mood check-ins only. It checks for three signals:
 | Missed check-ins | No check-in on 3 or more of the previous 7 days (days before your first check-in do not count) |
 
 0 signals = **Low**, 1 = **Moderate**, 2 or more = **High**. Thresholds are constants in
-`server/src/domain/indicators.ts`.
+`client/src/domain/indicators.ts`.
 
 ## How suggestions are picked
 
-The catalog is `server/src/data/catalog.json` (18 items). Each item lists the mood bands
+The catalog is `client/src/data/catalog.json` (18 items). Each item lists the mood bands
 (low = 1–2, mid = 3, high = 4–5) and indicator levels it suits. Each day:
 
 1. Items you marked **Not for me** are removed.
@@ -71,44 +87,22 @@ If you have not checked in today, every mood band counts as a match.
 ## Project layout
 
 ```
-shared/types.ts            Types shared by server and client
-server/src/
-  index.ts, app.ts         Startup and Express app (createApp has no side effects)
-  store/jsonStore.ts       JSON file store with atomic, queued writes
-  domain/                  Pure rules: indicators, recommender, insights, dates
-  services/                Data access on top of the store
-  routes/                  REST endpoints under /api
-  data/catalog.json        Recommendation catalog
-  scripts/seed.ts          Sample data generator
+amplify.yml                  Amplify Hosting build settings
+shared/types.ts              Shared data types
 client/src/
-  pages/                   Today, Journal, Trends
-  components/              Check-in, indicator, suggestions, layout
-  api/client.ts            Typed fetch wrapper
+  api/client.ts              The app's data API (the only thing components call for data)
+  store/localStore.ts        Store interface and localStorage implementation
+  services/                  Data operations: check-ins, journal, feedback
+  domain/                    Pure rules: indicators, recommender, insights, dates
+  validation.ts              Input checks and limits
+  data/                      Catalog and sample data
+  pages/, components/        UI
 ```
-
-## API
-
-| Method | Path | Purpose |
-| --- | --- | --- |
-| GET | `/api/health` | Health check |
-| GET | `/api/checkins?from&to` | List check-ins in a date range |
-| PUT | `/api/checkins/:date` | Create or update a check-in `{ mood, note? }` |
-| GET / POST | `/api/journal` | List entries (newest first) / create `{ text }` |
-| PUT / DELETE | `/api/journal/:id` | Update `{ text }` / delete |
-| GET | `/api/indicators?today` | Burnout & stress indicator |
-| GET | `/api/recommendations?today` | Today's suggestions |
-| POST / DELETE | `/api/recommendations/:id/feedback` | Set `{ verdict: "helpful" \| "not_for_me" }` / clear |
-| GET | `/api/trends?range=7\|30&today` | Series, streaks, and insights |
-
-`today` is optional; the web app sends the browser's local date so rules match your time zone.
 
 ## Future tests (not yet added)
 
-The code is structured so tests can be added without refactoring:
-
-- **Unit (Vitest):** `evaluateIndicators`, `recommend`, and `buildInsights` in `server/src/domain` are
+- **Unit (Vitest):** `evaluateIndicators`, `recommend`, and `buildInsights` in `client/src/domain` are
   pure functions that take an explicit `today`, so they can be tested with fixed dates.
-- **API (Supertest):** `createApp({ store, catalog })` builds the app without listening. Pass a store
-  created with `createJsonStore()` pointed at a temp file.
-- **End to end (Playwright):** smoke-test the check-in flow against `npm run dev`, using
-  `WELLBEING_DATA_FILE` to isolate data.
+- **Data API (Vitest):** `createLocalStore(storage)` accepts any `Storage`, so `api` behavior can be
+  tested with an in-memory store.
+- **End to end (Playwright):** smoke-test the check-in flow against `npm run preview`.

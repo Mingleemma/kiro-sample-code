@@ -4,10 +4,9 @@ import { api } from '../api/client';
 import { useResource } from '../hooks/useResource';
 import { formatDay } from '../lib/dates';
 import { moodLabel } from '../lib/moods';
+import { NOTE_MAX } from '../validation';
 import { MoodPicker } from './MoodPicker';
 import { ErrorMessage, Loading } from './Status';
-
-const NOTE_MAX = 500;
 
 export function CheckInCard({ today, onSaved }: { today: IsoDate; onSaved: () => void }) {
   const existing = useResource(() => api.listCheckins(today, today).then((list) => list[0]), [today]);

@@ -1,15 +1,12 @@
-import { readFile } from 'node:fs/promises';
 import type { CatalogItem, Category, IndicatorLevel, MoodBand } from '@wellbeing/shared';
+import rawCatalog from './catalog.json';
 
 const CATEGORIES: Category[] = ['mindfulness', 'exercise', 'self-care'];
 const BANDS: MoodBand[] = ['low', 'mid', 'high'];
 const LEVELS: IndicatorLevel[] = ['low', 'moderate', 'high'];
 
-/** Loads and checks the static recommendation catalog. Fails fast on a bad file. */
-export async function loadCatalog(fileUrl: URL): Promise<CatalogItem[]> {
-  const items = JSON.parse(await readFile(fileUrl, 'utf8')) as CatalogItem[];
-  if (!Array.isArray(items)) throw new Error('catalog.json must contain an array.');
-
+/** Checks the catalog shape once at startup, so a bad edit fails loudly. */
+function validateCatalog(items: CatalogItem[]): CatalogItem[] {
   const ids = new Set<string>();
   for (const item of items) {
     const where = `catalog item "${item?.id ?? '?'}"`;
@@ -24,3 +21,5 @@ export async function loadCatalog(fileUrl: URL): Promise<CatalogItem[]> {
   }
   return items;
 }
+
+export const catalog: CatalogItem[] = validateCatalog(rawCatalog as CatalogItem[]);

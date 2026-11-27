@@ -46,15 +46,12 @@ ul { margin: 0; }
 .nav-link { display: block; padding: 6px 12px; border-radius: 8px; color: var(--muted); text-decoration: none; font-weight: 500; }
 .nav-link:hover { background: var(--bg); color: var(--text); }
 .nav-link.active { background: var(--primary-soft); color: var(--primary-dark); }
-.api-pill { margin-left: auto; font-size: 0.8rem; padding: 2px 10px; border-radius: 999px; border: 1px solid var(--border); }
-.api-ok { color: var(--primary-dark); background: var(--primary-soft); }
-.api-offline { color: var(--danger); background: #fdecec; }
-.api-checking { color: var(--muted); }
 
 .main { flex: 1; width: 100%; max-width: 1040px; margin: 0 auto; padding: 24px 20px 40px; }
 .main:focus { box-shadow: none; }
 .footer { border-top: 1px solid var(--border); background: var(--surface); padding: 16px 20px; font-size: 0.85rem; text-align: center; display: grid; gap: 4px; }
 .page-title { font-size: 1.6rem; }
+.data-controls { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 4px; }
 
 .stack { display: grid; gap: 12px; }
 .stack-lg { display: grid; gap: 20px; }
@@ -142,5 +139,4 @@ textarea:focus { outline: none; box-shadow: var(--focus); border-color: var(--pr
 @media (max-width: 560px) {
   .mood-label { font-size: 0.7rem; }
   .mood-emoji { font-size: 1.5rem; }
-  .api-pill { margin-left: 0; }
 }
